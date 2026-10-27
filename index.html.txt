@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hi Crush! Tuấn Anh có điều muốn nói...</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ffe5ec, #ffc2d1);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Hiệu ứng trái tim rơi */
+        .heart {
+            position: absolute;
+            color: #ff4d6d;
+            font-size: 20px;
+            animation: fall linear infinite;
+            top: -20px;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(105vh) rotate(360deg);
+            }
+        }
+
+        /* Khung nội dung chính */
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 35px;
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            z-index: 10;
+            border: 2px solid #ff85a1;
+        }
+
+        .avatar {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            border: 4px solid #ff4d6d;
+            object-fit: cover;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
+        }
+
+        h1 {
+            color: #ff4d6d;
+            font-size: 26px;
+            margin-bottom: 12px;
+        }
+
+        .intro-text {
+            color: #4a4a4a;
+            font-size: 16.5px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            min-height: 70px;
+            font-style: italic;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 20px;
+            position: relative;
+            height: 50px;
+        }
+
+        button {
+            padding: 12px 28px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+        }
+
+        #yesBtn:hover {
+            transform: scale(1.1);
+            background-color: #ff758f;
+        }
+
+        #noBtn {
+            background-color: #6c757d;
+            color: white;
+            position: absolute;
+            right: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <!-- Ảnh đại diện mặc định, bạn có thể đổi link ảnh khác nếu muốn -->
+        <img class="avatar" src="https://unsplash.com" alt="Tuấn Anh">
+        
+        <h1 id="title">Xin chào cậu! 🥰</h1>
+        
+        <!-- Lời nhắn gõ chữ tự động từ Tuấn Anh -->
+        <p class="intro-text" id="typedText"></p>
+
+        <div class="btn-group">
+            <button id="yesBtn" onclick="celebrate()">Đồng ý luôn! ❤️</button>
+            <button id="noBtn" onmouseover="moveButton()">Không nha 😢</button>
+        </div>
+    </div>
+
+    <script>
+        // 1. Lời nhắn đã cá nhân hóa tên Tuấn Anh
+        const textToType = "Mình là Tuấn Anh đây. Chỉ mất 1 phút để cậu lướt qua hết trang web này, nhưng mình đã mất rất nhiều thời gian để đứng đây chờ cậu... Cậu có đồng ý bước vào thế giới của mình không?";
+        let index = 0;
+        
+        function typeWriter() {
+            if (index < textToType.length) {
+                document.getElementById("typedText").innerHTML += textToType.charAt(index);
+                index++;
+                setTimeout(typeWriter, 50);
+            }
+        }
+        window.onload = typeWriter;
+
+        // 2. Hiệu ứng tạo trái tim rơi
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            heart.style.fontSize = Math.random() * 15 + 15 + 'px';
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+        setInterval(createHeart, 300);
+
+        // 3. Nút "Không" tự động trốn khi di chuột vào
+        function moveButton() {
+            const noBtn = document.getElementById('noBtn');
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 20);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 20);
+            
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        }
+
+        // 4. Kịch bản khi crush nhấn "Đồng ý"
+        function celebrate() {
+            document.getElementById('title').innerHTML = "Yassss! Mình biết ngay mà! 🎉";
+            document.getElementById('typedText').innerHTML = "Cảm ơn cậu vì đã đồng ý nhé! Hãy chụp màn hình giao diện này lại và gửi ngay cho Tuấn Anh nhaaa. Chờ tin nhắn từ cậu! 😘❤️";
+            document.getElementById('noBtn').style.display = 'none';
+            document.getElementById('yesBtn').style.display = 'none';
+            
+            // Bùng nổ hiệu ứng tim rơi liên tục
+            setInterval(createHeart, 40);
+        }
+    </script>
+</body>
+</html>
